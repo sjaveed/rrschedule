@@ -13,6 +13,7 @@ module RRSchedule
       self.shuffle = params[:shuffle].nil? ? true : params[:shuffle]
       self.balanced_gt = params[:balanced_gt].nil? ? true : params[:balanced_gt]
       self.balanced_ps = params[:balanced_ps].nil? ? true : params[:balanced_ps]      
+      self.allow_rest = params[:allow_rest].nil? ? true : params[:allow_rest]
       self.exclude_dates = params[:exclude_dates] || []
       self.start_date = params[:start_date] || Date.today
       self.group_flights = params[:group_flights].nil? ? true : params[:group_flights]
@@ -216,15 +217,18 @@ module RRSchedule
       @schedule ||= []
 
       #if one of the team has already plays at this gamedate, we change rule
-      if @schedule.size>0
-        games_this_date = @schedule.select{|v| v[:gamedate] == @cur_date}
-        if games_this_date.select{|g| [game.team_a,game.team_b].include?(g[:team_a]) || [game.team_a,game.team_b].include?(g[:team_b])}.size >0
-          @cur_rule_index = (@cur_rule_index < @rules.size-1) ? @cur_rule_index+1 : 0
-          @cur_rule = @rules[@cur_rule_index]
-          reset_resource_availability
-          @cur_gt = get_best_gt(game)
-          @cur_ps = get_best_ps(game,@cur_gt)
-          @cur_date = next_game_date(@cur_date+=1,@cur_rule.wday)
+      #unless we're not allowing any rest...
+      unless self.allow_rest
+        if @schedule.size>0
+          games_this_date = @schedule.select{|v| v[:gamedate] == @cur_date}
+          if games_this_date.select{|g| [game.team_a,game.team_b].include?(g[:team_a]) || [game.team_a,game.team_b].include?(g[:team_b])}.size >0
+            @cur_rule_index = (@cur_rule_index < @rules.size-1) ? @cur_rule_index+1 : 0
+            @cur_rule = @rules[@cur_rule_index]
+            reset_resource_availability
+            @cur_gt = get_best_gt(game)
+            @cur_ps = get_best_ps(game,@cur_gt)
+            @cur_date = next_game_date(@cur_date+=1,@cur_rule.wday)
+          end
         end
       end
 
