@@ -7,9 +7,9 @@ begin
     gem.name = "rrschedule"
     gem.summary = %Q{Round-Robin schedule generator}
     gem.description = %Q{This gem automate the process of creating a round-robin sport schedule.}
-    gem.email = "flamontagne@azanka.ca"
-    gem.homepage = "http://flamontagne.github.com/rrschedule"
-    gem.authors = ["flamontagne"]
+    gem.email = "sjaveed@gmail.com"
+    gem.homepage = "http://sjaveed.github.com/rrschedule"
+    gem.authors = ["sjaveed", "flamontagne"]
     #gem.add_dependency 'activesupport'
     gem.add_development_dependency "thoughtbot-shoulda", ">= 0"
   end
