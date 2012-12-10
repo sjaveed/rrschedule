@@ -4,7 +4,8 @@
 module RRSchedule
   class Schedule
     attr_reader :flights, :rounds, :gamedays
-    attr_accessor :teams, :rules, :cycles, :start_date, :exclude_dates,:shuffle, :group_flights, :balanced_gt, :balanced_ps
+    attr_accessor :teams, :rules, :cycles, :start_date, :exclude_dates,:shuffle, :group_flights, :balanced_gt, :balanced_ps,
+		  :allow_rest
 
     def initialize(params={})
       @gamedays = []
